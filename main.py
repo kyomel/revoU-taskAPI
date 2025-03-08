@@ -27,7 +27,9 @@ def register_task_repository(task_data, task_id):
     tasks_db.update({f"{task_id}" : task_data})
 
 def register_task(task_data):
-    task_id = int(max(tasks_db.keys())) + 1
+    print(max(tasks_db.keys()))
+    task_id = 1
+    # task_id = int(max(tasks_db.keys())) + 1
     task_data.update({"id" : f"{task_id}", "completed" : False})
     register_task_repository(task_data, task_id)
     return task_data
