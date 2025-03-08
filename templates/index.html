@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Task Manager</title>
+    <style>
+      .task-complete {
+        text-decoration: line-through;
+      }
+      .form-container {
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Task Manager</h1>
+
+    <div class="form-container">
+      <h2>Add New Task</h2>
+      <form action="/tasks" method="POST">
+        <input type="text" name="title" placeholder="Task Title" required />
+        <input type="text" name="description" placeholder="Description" />
+        <button type="submit">Add Task</button>
+      </form>
+    </div>
+
+    <h2>Tasks</h2>
+    <ul>
+      {% for task in tasks %}
+      <li {% if task.completed %}class="task-complete" {% endif %}>
+        {{ task.title }} - {{ task.description }}
+        <form
+          style="display: inline"
+          action="/tasks/{{ task.id }}"
+          method="POST"
+        >
+          <input type="hidden" name="_method" value="PUT" />
+          <input
+            type="hidden"
+            name="completed"
+            value="{{ 'false' if task.completed else 'true' }}"
+          />
+          <button type="submit">{{ '✓' if task.completed else '○' }}</button>
+        </form>
+        <form
+          style="display: inline"
+          action="/tasks/{{ task.id }}"
+          method="POST"
+        >
+          <input type="hidden" name="_method" value="DELETE" />
+          <button type="submit">🗑️</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
